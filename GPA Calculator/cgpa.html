@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGPA Calculator - AU Calc Pro</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- 1. Navbar -->
+    <nav class="navbar sticky-nav">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>AU Calc Pro</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="gpa.html">GPA Calculator</a></li>
+                <li><a href="cgpa.html" class="text-primary">CGPA Calculator</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <div class="theme-toggle" id="theme-toggle" title="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container calc-container">
+        <header class="page-header">
+            <h2>Overall <span class="gradient-text">CGPA Calculator</span></h2>
+            <p class="text-muted">Enter the GPA for your completed semesters to find your Cumulative GPA.</p>
+        </header>
+
+        <div class="app-layout" id="cgpa-content-area">
+            <!-- Left Side: Inputs -->
+            <div class="input-panel glass-card shadow-lg">
+                <div class="semesters-grid">
+                    <div class="form-group sem-input-group">
+                        <label>Semester 1</label>
+                        <input type="number" id="sem-1" class="sem-input" step="0.01" min="0" max="10"
+                            placeholder="0.0">
+                    </div>
+                    <div class="form-group sem-input-group">
+                        <label>Semester 2</label>
+                        <input type="number" id="sem-2" class="sem-input" step="0.01" min="0" max="10"
+                            placeholder="0.0">
+                    </div>
+                    <div class="form-group sem-input-group">
+                        <label>Semester 3</label>
+                        <input type="number" id="sem-3" class="sem-input" step="0.01" min="0" max="10"
+                            placeholder="0.0">
+                    </div>
+                    <div class="form-group sem-input-group">
+                        <label>Semester 4</label>
+                        <input type="number" id="sem-4" class="sem-input" step="0.01" min="0" max="10"
+                            placeholder="0.0">
+                    </div>
+                    <div class="form-group sem-input-group">
+                        <label>Semester 5</label>
+                        <input type="number" id="sem-5" class="sem-input" step="0.01" min="0" max="10"
+                            placeholder="0.0">
+                    </div>
+                    <div class="form-group sem-input-group">
+                        <label>Semester 6</label>
+                        <input type="number" id="sem-6" class="sem-input" step="0.01" min="0" max="10"
+                            placeholder="0.0">
+                    </div>
+                    <div class="form-group sem-input-group">
+                        <label>Semester 7</label>
+                        <input type="number" id="sem-7" class="sem-input" step="0.01" min="0" max="10"
+                            placeholder="0.0">
+                    </div>
+                    <div class="form-group sem-input-group">
+                        <label>Semester 8</label>
+                        <input type="number" id="sem-8" class="sem-input" step="0.01" min="0" max="10"
+                            placeholder="0.0">
+                    </div>
+                </div>
+
+                <div class="error-msg" id="cgpa-validation-error">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>Please enter at least one semester GPA between 0 and 10!</span>
+                </div>
+
+                <button class="primary-btn glow-btn w-100 mt-30" id="calculate-cgpa-btn" style="width: 100%;">
+                    <i class="fa-solid fa-calculator"></i> Calculate CGPA
+                </button>
+            </div>
+
+            <!-- Right Side: Results -->
+            <div class="result-panel glass-card shadow-lg flex-column" id="cgpa-result-panel">
+                <div class="result-header">
+                    <h3>Your Results</h3>
+                    <div class="result-actions">
+                        <button class="icon-btn" id="download-cgpa-pdf" title="Download PDF"><i
+                                class="fa-solid fa-file-pdf"></i></button>
+                        <button class="icon-btn" id="share-cgpa" title="Share"><i
+                                class="fa-solid fa-share-nodes"></i></button>
+                    </div>
+                </div>
+
+                <div class="score-circle-container flex-grow">
+                    <div class="score-circle">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="bg" cx="50" cy="50" r="45"></circle>
+                            <circle class="progress" id="cgpa-progress" cx="50" cy="50" r="45"></circle>
+                        </svg>
+                        <div class="score-value">
+                            <span id="final-cgpa">0.00</span>
+                            <small>CGPA</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="cgpaChart"></canvas>
+                </div>
+
+                <div class="performance-msg" id="cgpa-msg">Enter your semester GPAs to see results</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 11. Footer -->
+    <footer class="modern-footer mt-30">
+        <div class="container text-center">
+            <p class="text-muted">&copy; 2026 AU Calc Pro. Designed for Anna University Students.</p>
+        </div>
+    </footer>
+
+    <!-- html2pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
